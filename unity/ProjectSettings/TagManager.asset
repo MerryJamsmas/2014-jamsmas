@@ -5,6 +5,7 @@ TagManager:
   tags:
   - NavigationShip
   - NavigationPOI
+  - NavigationCamera
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

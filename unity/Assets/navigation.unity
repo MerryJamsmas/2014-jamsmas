@@ -180,7 +180,7 @@ GameObject:
   - 81: {fileID: 528636830}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: NavigationCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -418,6 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b256ab5074216a24dbcf614df8500226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asteroidPrefab: {fileID: 101632, guid: 2236a8bc748b4824cb1ecc3497219e32, type: 2}
   cameraPanSpeed: 1
 --- !u!114 &986747345
 MonoBehaviour:

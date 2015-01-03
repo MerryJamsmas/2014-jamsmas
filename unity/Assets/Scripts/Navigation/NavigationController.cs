@@ -7,7 +7,7 @@ public class NavigationController : MonoBehaviour
 
     List<AsteroidField> allAsteroidFields;
 
-    public GameObject Asteroid;
+    public GameObject asteroidPrefab;
 
 	public float cameraPanSpeed;
 	private Camera m_camera;
@@ -23,6 +23,9 @@ public class NavigationController : MonoBehaviour
 				Debug.Log ("Unable to extract camera object in navigation controller");
 			}
 		}
+
+		makeAsteroidFields ();
+		instantiateAllAsteroids ();
 	}
 	
 	// Update is called once per frame
@@ -97,6 +100,6 @@ public class NavigationController : MonoBehaviour
     {
         foreach(AsteroidField af in allAsteroidFields)
             foreach(Asteroid a in af.allAsteroids)
-                a.instantiate(Instantiate(Asteroid, a.pos, a.rot) as GameObject);
+                a.instantiate(Instantiate(asteroidPrefab, a.pos, a.rot) as GameObject);
     }
 }
