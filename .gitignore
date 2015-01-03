@@ -3,6 +3,8 @@
 # =============== #
 Temp/
 Library/
+*.csproj
+*.sln
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
@@ -89,7 +91,6 @@ build/
 *_i.c
 *_p.c
 *.ilk
-*.meta
 *.obj
 *.pch
 *.pdb
