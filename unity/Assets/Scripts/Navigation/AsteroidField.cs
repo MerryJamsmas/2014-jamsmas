@@ -2,51 +2,64 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AsteroidField : MonoBehaviour 
+public class AsteroidField
 {
-    public GameObject Asteroid;
-    //Vector3 pos;
-    //float size;
+    public List<Asteroid> allAsteroids;
+
+    Vector3 pos;
+    float radius;
+    
+    public AsteroidField()
+    {
+        pos = new Vector3(0,0,0);
+        radius = 1.0f;
+        allAsteroids = new List<Asteroid>();
+        build(1);
+    }
+
+    public AsteroidField(float x, float y, float r, int n)
+    {
+        pos = new Vector3(x, y, 0.0f);
+        radius = r;
+        allAsteroids = new List<Asteroid>();
+        build(n);
+    }
 
 	// Use this for initialization
-	void Start () 
-	{
-        Debug.Log("Loading Asteroid Field...");
-        MakeAnAsteroidField(10.0F, 10.0F, 100, 9.0F);
-        Debug.Log("Asteroid Field Loaded.");
-	}
+	//void Start () 
+	//{
+      //  Debug.Log("Loading Asteroid Field...");
+      //  MakeAnAsteroidField(10.0F, 10.0F, 100, 9.0F);
+      //  Debug.Log("Asteroid Field Loaded.");
+	//}
 	
 	// Update is called once per frame
-	void Update () 
-	{
-	}
+	//void Update () 
+	//{
+	//}
 
-    void MakeAnAsteroidField(float x, float y, int n, float R)
+    void build(int n)
     {
         int i;
         float r2, dx, dy, phi, scale;
-        GameObject o;
         float maxScale = 2.0F;
         float minScale = 0.5F;
 
         for(i = 0; i < n; i++)
         {
-            r2 = 2*R*R;
+            r2 = 2*radius*radius;
             dx = 0.0F;
             dy = 0.0F;
-            while(r2 > R*R)
+            while(r2 > radius*radius)
             {
-                dx = Random.Range(-R, R);
-                dy = Random.Range(-R, R);
+                dx = Random.Range(-radius, radius);
+                dy = Random.Range(-radius, radius);
                 r2 = dx*dx + dy*dy;
             }
-            Vector3 pos = new Vector3(x+dx, y+dy, 0.0F);
             phi = Random.Range(0.0F,360.0F);
-            Quaternion rot = Quaternion.AngleAxis(phi,Vector3.forward);
             scale = minScale*Mathf.Pow(maxScale/minScale,Random.Range(0.0F,1.0F));
 
-            o = Instantiate(Asteroid, pos, rot) as GameObject;
-            o.transform.localScale = new Vector3(scale, scale, scale);
+            allAsteroids.Add(new Asteroid(pos.x+dx, pos.y+dy, scale, phi));
         }
     }
 }
