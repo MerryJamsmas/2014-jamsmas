@@ -178,7 +178,6 @@ GameObject:
   - 92: {fileID: 528636832}
   - 124: {fileID: 528636831}
   - 81: {fileID: 528636830}
-  - 114: {fileID: 528636835}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -216,7 +215,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -246,23 +245,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 528636829}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &528636835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 528636829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cddb7fe389831c409fffe3106ac6552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_panSpeed: .0500000007
 --- !u!1 &796203162
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b256ab5074216a24dbcf614df8500226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraPanSpeed: 1
 --- !u!114 &986747345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,7 +521,7 @@ GameObject:
   - 212: {fileID: 1275481992}
   m_Layer: 0
   m_Name: Asteroid
-  m_TagString: Untagged
+  m_TagString: NavigationPOI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -568,7 +556,7 @@ Transform:
   m_PrefabInternal: {fileID: 1787373213}
   m_GameObject: {fileID: 1275481991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.61999989, y: 1.47099996, z: 0}
+  m_LocalPosition: {x: 3.47000003, y: 1.47099996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -630,7 +618,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 401632, guid: 2236a8bc748b4824cb1ecc3497219e32, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 3.61999989
+      value: 3.47000003
       objectReference: {fileID: 0}
     - target: {fileID: 401632, guid: 2236a8bc748b4824cb1ecc3497219e32, type: 2}
       propertyPath: m_LocalPosition.y
@@ -659,6 +647,10 @@ Prefab:
     - target: {fileID: 401632, guid: 2236a8bc748b4824cb1ecc3497219e32, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 101632, guid: 2236a8bc748b4824cb1ecc3497219e32, type: 2}
+      propertyPath: m_TagString
+      value: NavigationPOI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2236a8bc748b4824cb1ecc3497219e32, type: 2}
