@@ -47,16 +47,14 @@ public class NavigationController : MonoBehaviour
 	}
 
 	private void MoveCamera(float deltaX, float deltaY) {
-		TranslateAsteroidGameObjects (deltaX, deltaY);
-		//TranslatePoiGameObjectsInScene (deltaX, deltaY);
-		TranslateShipGameObjectInScene (deltaX, deltaY);
 		TranslateMap (deltaX, deltaY);
+		TranslateAsteroidGameObjects (deltaX, deltaY);
+		TranslateShipGameObjectInScene (deltaX, deltaY);
 	}
 
 	private void MoveShip(float deltaX, float deltaY){
-		//TranslatePoiGameObjectsInScene (deltaX, deltaY);
-		TranslateAsteroidGameObjects (deltaX, deltaY);
 		TranslateMap (deltaX, deltaY);
+		TranslateAsteroidGameObjects (deltaX, deltaY);
 	}
 
 	private void TranslateMap(float deltaX, float deltaY) {
