@@ -5,20 +5,20 @@ using System.Collections.Generic;
 public class Asteroid
 {
     public GameObject me;
-    public Vector3 pos;
+    public Vector2 pos;
     public Quaternion rot;
     float size;
     
     public Asteroid()
     {
-        pos = new Vector3(0,0,0);
+        pos = new Vector2(0,0);
         size = 1.0f;
         rot = Quaternion.identity;
     }
 
     public Asteroid(float x, float y, float r, float phi)
     {
-        pos = new Vector3(x, y, 0.0f);
+        pos = new Vector2(x, y);
         size = r;
         rot = Quaternion.AngleAxis(phi, Vector3.forward);
     }
