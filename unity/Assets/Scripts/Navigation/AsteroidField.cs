@@ -25,19 +25,6 @@ public class AsteroidField
         build(n);
     }
 
-	// Use this for initialization
-	//void Start () 
-	//{
-      //  Debug.Log("Loading Asteroid Field...");
-      //  MakeAnAsteroidField(10.0F, 10.0F, 100, 9.0F);
-      //  Debug.Log("Asteroid Field Loaded.");
-	//}
-	
-	// Update is called once per frame
-	//void Update () 
-	//{
-	//}
-
     void build(int n)
     {
         int i;
