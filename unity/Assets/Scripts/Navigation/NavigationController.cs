@@ -6,11 +6,14 @@ public class NavigationController : MonoBehaviour
 {
 
     List<AsteroidField> allAsteroidFields;
-
     public GameObject asteroidPrefab;
+	private GameObject asteroidParent;
 
 	public float cameraPanSpeed;
 	private Camera m_camera;
+
+	private bool m_shipIsMoving = false;
+	public Vector2 m_shipMovementDestination;
 
 	// The coordinates of the centre of the portion of the map currently displayed in the scene
 	public Vector2 m_mapCentre = new Vector2(0, 0);
@@ -28,21 +31,58 @@ public class NavigationController : MonoBehaviour
 			}
 		}
 
+		asteroidParent = GameObject.FindGameObjectWithTag ("AsteroidParentGameObject");
+		if (asteroidParent == null) {
+			Debug.Log ("Unable to find AsteroidParentGameObject in navigation controller");
+		}
+
 		makeAsteroidFields ();
 		instantiateAllAsteroids ();
+
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
-			Vector3 objective = m_camera.ScreenToWorldPoint(Input.mousePosition);
-			GameObject shipGameObject = GameObject.FindGameObjectWithTag ("NavigationShip");
-			if (shipGameObject != null) {
-				MoveShip (shipGameObject.transform.position.x - objective.x, shipGameObject.transform.position.y - objective.y);
+		if (!m_shipIsMoving) {
+			if (Input.GetMouseButtonDown(0)) {
+				GameObject shipGameObject = GameObject.FindGameObjectWithTag ("NavigationShip");
+				if (shipGameObject != null) {
+					SetShipDestination(SceneToMap(m_camera.ScreenToWorldPoint(Input.mousePosition)));
+					// MoveShip (shipGameObject.transform.position.x - objective.x, shipGameObject.transform.position.y - objective.y);
+				}
+			}
+			else if (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f) {
+				MoveCamera (cameraPanSpeed * Input.GetAxis("Horizontal"), cameraPanSpeed * Input.GetAxis("Vertical"));
 			}
 		}
-		else if (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f) {
-			MoveCamera (cameraPanSpeed * Input.GetAxis("Horizontal"), cameraPanSpeed * Input.GetAxis("Vertical"));
+	}
+
+	void FixedUpdate() {
+		if (m_shipIsMoving) {
+			GameObject shipGameObject = GameObject.FindGameObjectWithTag ("NavigationShip");
+			if (shipGameObject != null) {
+				// Move the ship one step towards its current destination
+				Vector2 shipMapPosition = SceneToMap(shipGameObject.transform.position);
+				Vector2 hopObjective = Vector2.Lerp(shipMapPosition, m_shipMovementDestination, 0.1f);
+				MoveShip (shipMapPosition.x - hopObjective.x, shipMapPosition.y - hopObjective.y);
+				if (Vector2.Distance(m_shipMovementDestination, shipMapPosition) < 0.05) {
+					m_shipIsMoving = false;
+				}
+
+				// Rotate the ship to face it's current destination
+				GameObject shipSpriteGameObject = GameObject.FindGameObjectWithTag ("NavigationShipSprite");
+				if (shipSpriteGameObject != null) {
+					shipSpriteGameObject.transform.localRotation = Quaternion.FromToRotation(Vector3.up, MapToScene(m_shipMovementDestination));
+				}
+			}
+		}
+		else {
+			// Rotate the ship to face up
+			GameObject shipSpriteGameObject = GameObject.FindGameObjectWithTag ("NavigationShipSprite");
+			if (shipSpriteGameObject != null) {
+				shipSpriteGameObject.transform.localRotation = Quaternion.identity;
+			}
 		}
 	}
 
@@ -52,7 +92,12 @@ public class NavigationController : MonoBehaviour
 		TranslateShipGameObjectInScene (deltaX, deltaY);
 	}
 
-	private void MoveShip(float deltaX, float deltaY){
+	private void SetShipDestination(Vector3 shipDestination) {
+		m_shipMovementDestination = shipDestination;
+		m_shipIsMoving = true;
+	}
+
+	private void MoveShip(float deltaX, float deltaY) {
 		TranslateMap (deltaX, deltaY);
 		TranslateAsteroidGameObjects (deltaX, deltaY);
 	}
@@ -77,6 +122,7 @@ public class NavigationController : MonoBehaviour
 				}
 				else if (MapCoordinatesAreInScene(asteroid.pos)) {
 					asteroid.instantiate(Instantiate(asteroidPrefab, MapToScene(asteroid.pos), asteroid.rot) as GameObject);
+					asteroid.me.transform.parent = asteroidParent.transform;
 				}
 			}
 		}
@@ -138,8 +184,11 @@ public class NavigationController : MonoBehaviour
 	
 	void instantiateAllAsteroids()
     {
-        foreach(AsteroidField af in allAsteroidFields)
-            foreach(Asteroid a in af.allAsteroids)
-                a.instantiate(Instantiate(asteroidPrefab, a.pos, a.rot) as GameObject);
+        foreach (AsteroidField af in allAsteroidFields) {
+			foreach (Asteroid a in af.allAsteroids) {
+				a.instantiate (Instantiate (asteroidPrefab, a.pos, a.rot) as GameObject);
+				a.me.transform.parent = asteroidParent.transform;
+			}
+		}
     }
 }

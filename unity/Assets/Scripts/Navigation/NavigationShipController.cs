@@ -7,8 +7,6 @@ public class NavigationShipController : MonoBehaviour {
 	public static float m_minFuel { get { return 0f; } }
 	private float m_remainingFuel = m_maxFuel;
 
-
-
 	// Use this for initialization
 	void Start () {
 		
