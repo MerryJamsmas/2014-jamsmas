@@ -38,8 +38,6 @@ public class NavigationController : MonoBehaviour
 
 		makeAsteroidFields ();
 		instantiateAllAsteroids ();
-
-
 	}
 	
 	// Update is called once per frame
@@ -49,7 +47,14 @@ public class NavigationController : MonoBehaviour
 				GameObject shipGameObject = GameObject.FindGameObjectWithTag ("NavigationShip");
 				if (shipGameObject != null) {
 					SetShipDestination(SceneToMap(m_camera.ScreenToWorldPoint(Input.mousePosition)));
-					// MoveShip (shipGameObject.transform.position.x - objective.x, shipGameObject.transform.position.y - objective.y);
+
+					// Rotate the ship to face it's current destination
+					GameObject shipSpriteGameObject = GameObject.FindGameObjectWithTag ("NavigationShipSprite");
+					if (shipSpriteGameObject != null) {
+						shipSpriteGameObject.transform.localRotation = Quaternion.identity;
+						float dir = MapToScene(m_shipMovementDestination).x > shipSpriteGameObject.transform.position.x? -1f:1f;
+						shipSpriteGameObject.transform.Rotate(Vector3.forward, dir * Vector3.Angle(Vector3.up, MapToScene(m_shipMovementDestination) - shipGameObject.transform.position));
+					}
 				}
 			}
 			else if (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f) {
@@ -68,12 +73,6 @@ public class NavigationController : MonoBehaviour
 				MoveShip (shipMapPosition.x - hopObjective.x, shipMapPosition.y - hopObjective.y);
 				if (Vector2.Distance(m_shipMovementDestination, shipMapPosition) < 0.05) {
 					m_shipIsMoving = false;
-				}
-
-				// Rotate the ship to face it's current destination
-				GameObject shipSpriteGameObject = GameObject.FindGameObjectWithTag ("NavigationShipSprite");
-				if (shipSpriteGameObject != null) {
-					shipSpriteGameObject.transform.localRotation = Quaternion.FromToRotation(Vector3.up, MapToScene(m_shipMovementDestination));
 				}
 			}
 		}
