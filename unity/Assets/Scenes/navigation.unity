@@ -492,9 +492,7 @@ LineRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 1.80999994, y: -6, z: 1.25}
-  - {x: 0, y: 0, z: 0}
+  m_Positions: []
   m_Parameters:
     startWidth: .100000001
     endWidth: .100000001
