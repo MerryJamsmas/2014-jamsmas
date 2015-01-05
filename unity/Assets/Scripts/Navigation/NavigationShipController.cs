@@ -5,7 +5,7 @@ public class NavigationShipController : MonoBehaviour {
 
 	public static float m_maxFuel { get { return 100f; } }
 	public static float m_minFuel { get { return 0f; } }
-	private float m_remainingFuel = m_maxFuel;
+	public float m_remainingFuel = m_maxFuel;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +15,7 @@ public class NavigationShipController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey ("q")) {
-			ReduceFuel(1f);
+			ReduceFuel(0.01f);
 		}
 	}
 
