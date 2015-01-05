@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/startmenu.unity
   - enabled: 1
     path: Assets/Scenes/navigation.unity
+  - enabled: 1
+    path: Assets/Scenes/room00.unity
