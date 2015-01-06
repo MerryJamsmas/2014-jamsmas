@@ -125,6 +125,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 354698056}
   - 212: {fileID: 354698057}
+  - 95: {fileID: 354698058}
   m_Layer: 0
   m_Name: Ship Sprite
   m_TagString: NavigationShipSprite
@@ -164,8 +165,23 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5bc3977eed6456a418b8edcfad7f57fd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 50d21f8fe21d7044b9f57fd5e3961fcb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!95 &354698058
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 354698055}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b5aeeb0f296444943b72f205835aa997, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &528636829
 GameObject:
   m_ObjectHideFlags: 0
