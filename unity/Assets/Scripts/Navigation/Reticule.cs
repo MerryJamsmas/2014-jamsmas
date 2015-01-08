@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ReticuleController : MonoBehaviour {
+public class Reticule : MonoBehaviour {
 	
 	public GameObject target;
 	public GameObject shipGameObject { get; set; }

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RangeometerController : MonoBehaviour {
+public class Rangeometer : MonoBehaviour {
 
-	private NavigationShipController m_navigationShipController;
+	private NavigationShip m_navigationShip;
 
 	public int lineSegments;
 	
@@ -11,9 +11,9 @@ public class RangeometerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		m_navigationShipController = FindObjectOfType<NavigationShipController> ();
-		if (m_navigationShipController == null) {
-			Debug.LogError("Could not find NavigationShipController!");
+		m_navigationShip = FindObjectOfType<NavigationShip> ();
+		if (m_navigationShip == null) {
+			Debug.LogError("Could not find NavigationShip!");
 		}
 
 		line = gameObject.GetComponent<LineRenderer>();
@@ -28,7 +28,7 @@ public class RangeometerController : MonoBehaviour {
 	}
 
 	void CreatePoints () {
-		float radius = m_navigationShipController.GetRangeOnRemainingFuel();
+		float radius = m_navigationShip.GetRangeOnRemainingFuel();
 		float angle = Time.frameCount * -2.0f;
 
 		for (int i = 0; i < (lineSegments + 1); i++) {
