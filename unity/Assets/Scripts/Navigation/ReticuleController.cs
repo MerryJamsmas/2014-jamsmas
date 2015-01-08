@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class ReticuleController : MonoBehaviour {
-
-	private float m_radius = 2;
+	
 	public GameObject target;
 	public GameObject shipGameObject { get; set; }
 
@@ -20,7 +19,6 @@ public class ReticuleController : MonoBehaviour {
 		if (target != null){
 			this.transform.localRotation = Quaternion.identity;
 			this.transform.localPosition = new Vector3(0f, 1.1f, 0f);
-
 
 			//determine if the target is to our right or our left. If it's to the left, need to take the -angle for our rotation
 			float dir = target.transform.position.x > shipGameObject.transform.position.x? -1f:1f;

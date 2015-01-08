@@ -18,22 +18,29 @@ public class NavigationController : MonoBehaviour
 	// The coordinates of the centre of the portion of the map currently displayed in the scene
 	public Vector2 m_mapCentre = new Vector2(0, 0);
 
+	private NavigationShipController m_navigationShipController;
+
 	// Use this for initialization
 	void Start () {
 		GameObject cameraGameObject = GameObject.FindGameObjectWithTag ("NavigationCamera");
 		if (cameraGameObject == null) {
-			Debug.Log ("Unable to find camera game object in navigation controller");
+			Debug.LogError ("Unable to find camera game object in NavigationController");
 		}
 		else{
 			m_camera = cameraGameObject.camera;
 			if(m_camera == null){
-				Debug.Log ("Unable to extract camera object in navigation controller");
+				Debug.LogError ("Unable to extract camera object in NavigationController");
 			}
 		}
 
 		asteroidParent = GameObject.FindGameObjectWithTag ("AsteroidParentGameObject");
 		if (asteroidParent == null) {
-			Debug.Log ("Unable to find AsteroidParentGameObject in navigation controller");
+			Debug.LogError ("Unable to find AsteroidParentGameObject in NavigationController");
+		}
+
+		m_navigationShipController = GameObject.FindObjectOfType<NavigationShipController> ();
+		if (m_navigationShipController == null) {
+			Debug.LogError("Unable to find NavigationShipController in NavigationController");
 		}
 
 		makeAsteroidFields ();
@@ -46,19 +53,23 @@ public class NavigationController : MonoBehaviour
 			if (Input.GetMouseButtonDown(0)) {
 				GameObject shipGameObject = GameObject.FindGameObjectWithTag ("NavigationShip");
 				if (shipGameObject != null) {
-					SetShipDestination(SceneToMap(m_camera.ScreenToWorldPoint(Input.mousePosition)));
+					Vector2 mapDestination = SceneToMap(m_camera.ScreenToWorldPoint(Input.mousePosition));
+					Vector2 shipMapPosition = SceneToMap(shipGameObject.transform.position);
 
-					// Rotate the ship to face it's current destination
+					if (Vector2.Distance(mapDestination, shipMapPosition) < m_navigationShipController.GetRangeOnRemainingFuel()) {
+						SetShipDestination(SceneToMap(m_camera.ScreenToWorldPoint(Input.mousePosition)));
 
-					// TODO: Refactor to move all this ship sprite manipulation to a separate class!
-					GameObject shipSpriteGameObject = GameObject.FindGameObjectWithTag ("NavigationShipSprite");
-					if (shipSpriteGameObject != null) {
-						shipSpriteGameObject.transform.localRotation = Quaternion.identity;
-						float dir = MapToScene(m_shipMovementDestination).x > shipSpriteGameObject.transform.position.x? -1f:1f;
-						shipSpriteGameObject.transform.Rotate(Vector3.forward, dir * Vector3.Angle(Vector3.up, MapToScene(m_shipMovementDestination) - shipSpriteGameObject.transform.position));
-
-						Animator animator = shipSpriteGameObject.GetComponent<Animator>();
-						animator.SetBool("thrust", true);
+						// TODO: Refactor to move all this ship sprite manipulation to a separate class! (probably NavigationShipController)
+						GameObject shipSpriteGameObject = GameObject.FindGameObjectWithTag ("NavigationShipSprite");
+						if (shipSpriteGameObject != null) {
+							// Rotate the ship to face it's current destination
+							shipSpriteGameObject.transform.localRotation = Quaternion.identity;
+							float dir = MapToScene(m_shipMovementDestination).x > shipSpriteGameObject.transform.position.x? -1f:1f;
+							shipSpriteGameObject.transform.Rotate(Vector3.forward, dir * Vector3.Angle(Vector3.up, MapToScene(m_shipMovementDestination) - shipSpriteGameObject.transform.position));
+							
+							Animator animator = shipSpriteGameObject.GetComponent<Animator>();
+							animator.SetBool("thrust", true);
+						}
 					}
 				}
 			}
@@ -79,7 +90,7 @@ public class NavigationController : MonoBehaviour
 				if (Vector2.Distance(m_shipMovementDestination, shipMapPosition) < 0.05) {
 					m_shipIsMoving = false;
 
-					// TODO: Refactor to move all this ship sprite manipulation to a separate class!
+					// TODO: Refactor to move all this ship sprite manipulation to a separate class! (probably NavigationShipController)
 					GameObject shipSpriteGameObject = GameObject.FindGameObjectWithTag ("NavigationShipSprite");
 					if (shipSpriteGameObject != null) {
 						Animator animator = shipSpriteGameObject.GetComponent<Animator>();
@@ -89,7 +100,7 @@ public class NavigationController : MonoBehaviour
 			}
 		}
 		else {
-			// TODO: Refactor to move all this ship sprite manipulation to a separate class!
+			// TODO: Refactor to move all this ship sprite manipulation to a separate class! (probably NavigationShipController)
 			// Rotate the ship to face up
 			GameObject shipSpriteGameObject = GameObject.FindGameObjectWithTag ("NavigationShipSprite");
 			if (shipSpriteGameObject != null) {
@@ -112,6 +123,7 @@ public class NavigationController : MonoBehaviour
 	private void MoveShip(float deltaX, float deltaY) {
 		TranslateMap (deltaX, deltaY);
 		TranslateAsteroidGameObjects (deltaX, deltaY);
+		m_navigationShipController.ReduceFuel (Vector2.Distance(Vector2.zero, new Vector2(deltaX, deltaY)));
 	}
 
 	private void TranslateMap(float deltaX, float deltaY) {
@@ -155,6 +167,7 @@ public class NavigationController : MonoBehaviour
 		return new Vector2 (sceneCoordinates.x + m_mapCentre.x, sceneCoordinates.y + m_mapCentre.y);
 	}
 
+	// Currently not in use.  Could be used to move game objects by tag rather than by held pointer.
 	private void TranslatePoiGameObjectsInScene(float deltaX, float deltaY) {
 		GameObject[] poiGameObjects = GameObject.FindGameObjectsWithTag ("NavigationPOI");
 		foreach (GameObject poiGameObject in poiGameObjects) {

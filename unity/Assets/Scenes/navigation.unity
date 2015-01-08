@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e54f8c4b2b86a14ea871601d0267405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_remainingFuel: 1
+  m_remainingFuel: 8
 --- !u!1001 &296686589
 Prefab:
   m_ObjectHideFlags: 0
@@ -494,8 +494,8 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions: []
   m_Parameters:
-    startWidth: .100000001
-    endWidth: .100000001
+    startWidth: .0500000007
+    endWidth: .0500000007
     m_StartColor:
       serializedVersion: 2
       rgba: 4281035038
