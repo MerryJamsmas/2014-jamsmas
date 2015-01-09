@@ -104,14 +104,20 @@ public class NavigationMap : MonoBehaviour {
 	}
 	
 	private void ScrollMap(float deltaX, float deltaY) {
+		// Must translate map first
 		TranslateMap (deltaX, deltaY);
+
 		TranslateAsteroidGameObjects (deltaX, deltaY);
+		TranslatePoiGameObjectsInScene (deltaX, deltaY);
 		TranslateShipGameObjectInScene (deltaX, deltaY);
 	}
 
 	private void MoveShip(float deltaX, float deltaY) {
+		// Must translate map first
 		TranslateMap (deltaX, deltaY);
+
 		TranslateAsteroidGameObjects (deltaX, deltaY);
+		TranslatePoiGameObjectsInScene (deltaX, deltaY);
 		m_navigationShip.ReduceFuel (Vector2.Distance(Vector2.zero, new Vector2(deltaX, deltaY)));
 	}
 	
@@ -134,8 +140,7 @@ public class NavigationMap : MonoBehaviour {
 			}
 		}
 	}
-	
-	// Currently not in use.  Could be used to move game objects by tag rather than by held pointer.
+
 	private void TranslatePoiGameObjectsInScene(float deltaX, float deltaY) {
 		GameObject[] poiGameObjects = GameObject.FindGameObjectsWithTag ("NavigationPOI");
 		foreach (GameObject poiGameObject in poiGameObjects) {
