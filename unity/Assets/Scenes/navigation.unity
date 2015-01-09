@@ -539,7 +539,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1709530226}
   - 114: {fileID: 1709530228}
-  - 58: {fileID: 1709530227}
   - 120: {fileID: 1709530229}
   m_Layer: 0
   m_Name: Travel Path
@@ -560,17 +559,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 262666206}
   m_RootOrder: 3
---- !u!58 &1709530227
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1709530225}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Radius: .5
-  m_Center: {x: 0, y: 0}
 --- !u!114 &1709530228
 MonoBehaviour:
   m_ObjectHideFlags: 0
