@@ -2,22 +2,29 @@
 using System.Collections;
 
 public class NavigationMap : MonoBehaviour {
-
-	public static float m_mapEdge = 20;
 	
 	// These constants represent the bounds of the area in the scene
 	// in which we allow GameObjects to exist.  If a GameObject travels
 	// beyond these bounds, we Destroy it, and reinstantiate it if it needs
 	// to move back inside this area.
-	public static float mapEdgeLeft { get { return -m_mapEdge; } }
-	public static float mapEdgeRight { get { return m_mapEdge;} }
-	public static float mapEdgeTop { get { return m_mapEdge;} }
-	public static float mapEdgeBottom { get { return -m_mapEdge;} }
+	private const float m_sceneEdge = 20;
+	public float sceneEdgeLeft { get { return -m_sceneEdge; } }
+	public float sceneEdgeRight { get { return m_sceneEdge;} }
+	public float sceneEdgeTop { get { return m_sceneEdge;} }
+	public float sceneEdgeBottom { get { return -m_sceneEdge;} }
 
-	public float scrollSpeed;
+	// These contants represent the bounds of the map in map coordinates.
+	// An object should not be permitted to move beyond the bounds of the map.
+	private const float m_mapEdge = 25;
+	public float mapEdgeLeft { get { return -m_mapEdge; } }
+	public float mapEdgeRight { get { return m_mapEdge;} }
+	public float mapEdgeTop { get { return m_mapEdge;} }
+	public float mapEdgeBottom { get { return -m_mapEdge;} }
 
 	private Vector2 m_mapCentre = Vector2.zero;
-	public Vector2 mapCentre { get; set; }
+	public Vector2 mapCentre { get { return m_mapCentre; } }
+
+	public float scrollSpeed;
 
 	private Camera m_camera;
 	private NavigationShip m_navigationShip;
@@ -60,17 +67,17 @@ public class NavigationMap : MonoBehaviour {
 			if (shipGameObject != null) {
 				// Move the ship one step towards its current destination
 				Vector2 shipMapPosition = SceneToMap(shipGameObject.transform.position);
-				Vector2 hopObjective = Vector2.Lerp(shipMapPosition, m_navigationShip.shipMovementDestination, 0.1f);
+				Vector2 hopObjective = Vector2.MoveTowards(shipMapPosition, m_navigationShip.shipMovementDestination, 0.1f);
 				MoveShip (shipMapPosition.x - hopObjective.x, shipMapPosition.y - hopObjective.y);
 			}
 		}
 	}
 
 	public bool MapCoordinatesAreInScene(Vector2 mapCoordinates) {
-		return mapCoordinates.x > (m_mapCentre.x + mapEdgeLeft)
-			&& mapCoordinates.x < (m_mapCentre.x + mapEdgeRight)
-				&& mapCoordinates.y > (m_mapCentre.y + mapEdgeBottom)
-				&& mapCoordinates.y < (m_mapCentre.y + mapEdgeTop);
+		return mapCoordinates.x > (m_mapCentre.x + sceneEdgeLeft)
+			&& mapCoordinates.x < (m_mapCentre.x + sceneEdgeRight)
+				&& mapCoordinates.y > (m_mapCentre.y + sceneEdgeBottom)
+				&& mapCoordinates.y < (m_mapCentre.y + sceneEdgeTop);
 	}
 	
 	public Vector3 MapToScene(Vector2 mapCoordinates) {
@@ -81,9 +88,14 @@ public class NavigationMap : MonoBehaviour {
 		return new Vector2 (sceneCoordinates.x + m_mapCentre.x, sceneCoordinates.y + m_mapCentre.y);
 	}
 
-	public bool SceneCoordinatesAreInBounds(Vector3 sceneCoordinates) {
-		return sceneCoordinates.x <= mapEdgeRight && sceneCoordinates.x >= mapEdgeLeft 
-			&& sceneCoordinates.y <= mapEdgeTop && sceneCoordinates.y >= mapEdgeBottom;
+	public bool SceneCoordinatesAreInSceneBounds(Vector3 sceneCoordinates) {
+		return sceneCoordinates.x <= sceneEdgeRight && sceneCoordinates.x >= sceneEdgeLeft 
+			&& sceneCoordinates.y <= sceneEdgeTop && sceneCoordinates.y >= sceneEdgeBottom;
+	}
+
+	public bool MapCoordinatesAreInMapBounds(Vector2 mapCoordinates) {
+		return mapCoordinates.x <= mapEdgeRight && mapCoordinates.x >= mapEdgeLeft 
+			&& mapCoordinates.y <= mapEdgeTop && mapCoordinates.y >= mapEdgeBottom;
 	}
 
 	public void TranslateMap(float deltaX, float deltaY) {
@@ -157,7 +169,7 @@ public class NavigationMap : MonoBehaviour {
 		gObject.transform.position = position;
 		
 		// Destroy game object if outside of bounds of map area
-		if (!SceneCoordinatesAreInBounds(position))
+		if (!SceneCoordinatesAreInSceneBounds(position))
 		{
 			// TODO: Make sure that destroying a gameobject in this iterator doesn't create problems
 			GameObject.Destroy(gObject);
