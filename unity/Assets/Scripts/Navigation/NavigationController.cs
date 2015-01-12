@@ -11,6 +11,7 @@ public class NavigationController : MonoBehaviour
 
 	private NavigationShip m_navigationShip;
 	private NavigationMap m_navigationMap;
+	private Camera m_camera;
 
 	// Use this for initialization
 	void Start () {
@@ -30,8 +31,21 @@ public class NavigationController : MonoBehaviour
 			Debug.LogError("Unable to find NavigationMap in NavigationController");
 		}
 
+		GameObject navigationCamera = GameObject.FindGameObjectWithTag("NavigationCamera");
+		if (navigationCamera != null) {
+			m_camera = navigationCamera.camera;
+		}
+
 		MakeAsteroidFields ();
 		InstantiateAllAsteroids ();
+	}
+
+	public void ShowNavigationView () {
+		m_camera.enabled = true;
+	}
+
+	public void HideNavigationView () {
+		m_camera.enabled = false;
 	}
 
     private void MakeAsteroidFields()

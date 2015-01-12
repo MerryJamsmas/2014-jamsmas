@@ -54,3 +54,7 @@ TagManager:
     userID: 2
     uniqueID: 882962789
     locked: 0
+  - name: NavigationUI
+    userID: 3
+    uniqueID: 3158271965
+    locked: 0

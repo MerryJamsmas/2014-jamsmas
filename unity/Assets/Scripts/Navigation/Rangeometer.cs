@@ -7,7 +7,8 @@ public class Rangeometer : MonoBehaviour {
 
 	public int lineSegments;
 	
-	LineRenderer line;
+	private LineRenderer line;
+	private float startAngle = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -21,15 +22,15 @@ public class Rangeometer : MonoBehaviour {
 		line.useWorldSpace = false;
 		line.sortingLayerName = "NavigationForeground";
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void FixedUpdate () {
+		startAngle -= 1.0f;
 		CreatePoints ();
 	}
 
 	void CreatePoints () {
 		float radius = m_navigationShip.GetRangeOnRemainingFuel();
-		float angle = Time.frameCount * -2.0f;
+		float angle = startAngle;
 
 		for (int i = 0; i < (lineSegments + 1); i++) {
 			float x = Mathf.Sin (Mathf.Deg2Rad * angle) * radius;

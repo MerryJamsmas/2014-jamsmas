@@ -5,6 +5,6 @@ public class UIManagerScript : MonoBehaviour
 {
     public void StartGame()
     {
-        Application.LoadLevel("room00");
+        Application.LoadLevel("main");
     }
 }
