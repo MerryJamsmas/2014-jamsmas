@@ -593,7 +593,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 395203461}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -742,7 +742,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 528636829}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
@@ -1141,7 +1141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39205dbc55ee84d46a46a4008cd40477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: .100000001
+  mouseScrollSpeed: .25
+  keyScrollSpeed: .0500000007
 --- !u!1 &1064362454
 GameObject:
   m_ObjectHideFlags: 0

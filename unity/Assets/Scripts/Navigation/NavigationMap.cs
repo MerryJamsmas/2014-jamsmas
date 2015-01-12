@@ -24,7 +24,8 @@ public class NavigationMap : MonoBehaviour {
 	private Vector2 m_mapCentre = Vector2.zero;
 	public Vector2 mapCentre { get { return m_mapCentre; } }
 
-	public float scrollSpeed;
+	public float mouseScrollSpeed;
+	public float keyScrollSpeed;
 
 	private Camera m_camera;
 	private NavigationShip m_navigationShip;
@@ -56,7 +57,10 @@ public class NavigationMap : MonoBehaviour {
 	void Update () {
 		if (!m_navigationShip.shipIsMoving) {
 			if (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f) {
-				ScrollMap (scrollSpeed * Input.GetAxis("Horizontal"), scrollSpeed * Input.GetAxis("Vertical"));
+				ScrollMap (keyScrollSpeed * Input.GetAxis("Horizontal"), keyScrollSpeed * Input.GetAxis("Vertical"));
+			}
+			else if (Input.GetMouseButton(2)) {
+				ScrollMap (mouseScrollSpeed * Input.GetAxis("Mouse X"), mouseScrollSpeed * Input.GetAxis("Mouse Y"));
 			}
 		}
 	}
