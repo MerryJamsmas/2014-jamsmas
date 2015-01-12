@@ -34,6 +34,12 @@ public class NavigationController : MonoBehaviour
 		GameObject navigationCamera = GameObject.FindGameObjectWithTag("NavigationCamera");
 		if (navigationCamera != null) {
 			m_camera = navigationCamera.camera;
+			if (m_camera == null) {
+				Debug.LogError("Unable to find NavigationCamera's camera component in NavigationController");
+			}
+		}
+		else {
+			Debug.LogError("Unable to find NavigationCamera in NavigationController");
 		}
 
 		MakeAsteroidFields ();
