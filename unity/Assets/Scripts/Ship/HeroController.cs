@@ -47,8 +47,6 @@ public class HeroController : MonoBehaviour {
 			return;
 		}
 
-		m_animator.SetBool ("walking", true);
-
 		Vector3 dir = (m_path.vectorPath[m_currentWaypoint] - transform.position).normalized;
 		if (Vector3.Distance(transform.position, m_path.vectorPath[m_currentWaypoint]) < m_speed * Time.fixedDeltaTime) {
 			transform.position = m_path.vectorPath[m_currentWaypoint];
@@ -56,6 +54,12 @@ public class HeroController : MonoBehaviour {
 		else
 		{
 			transform.position = transform.position + (dir * m_speed * Time.fixedDeltaTime);
+		}
+
+		//Check if we are close enough to the next waypoint
+		//If we are, proceed to follow the next waypoint
+		if (Vector3.Distance (transform.position, m_path.vectorPath [m_currentWaypoint]) < 0.001f) {
+			m_currentWaypoint++;
 		}
 
 		float angle = Vector3.Angle(Vector3.down, dir);
@@ -71,12 +75,7 @@ public class HeroController : MonoBehaviour {
 		else if (dir.x > 0) {
 			m_animator.SetInteger ("facing", 3);
 		}
+		m_animator.SetBool ("walking", true);
 
-		//Check if we are close enough to the next waypoint
-		//If we are, proceed to follow the next waypoint
-		if (Vector3.Distance (transform.position, m_path.vectorPath [m_currentWaypoint]) < 0.001f) {
-			m_currentWaypoint++;
-			return;
-		}
 	}
 }
