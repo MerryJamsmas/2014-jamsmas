@@ -42,7 +42,6 @@ public class HeroController : MonoBehaviour {
 		}
 		
 		if (m_currentWaypoint >= m_path.vectorPath.Count) {
-			Debug.Log ("End Of Path Reached");
 			m_animator.SetBool ("walking", false);
 			return;
 		}
