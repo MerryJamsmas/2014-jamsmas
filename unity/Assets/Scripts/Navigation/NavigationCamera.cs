@@ -18,11 +18,11 @@ public class NavigationCamera : MonoBehaviour {
 		// Maybe add some inertia too the camera movement too make it feel less snappy?
 
 		if (Input.GetAxis("Mouse ScrollWheel") > 0.0f) {
-			camera.orthographicSize = Mathf.Max (camera.orthographicSize - zoomSpeed * Input.GetAxis("Mouse ScrollWheel"), minCameraSize);
+			GetComponent<Camera>().orthographicSize = Mathf.Max (GetComponent<Camera>().orthographicSize - zoomSpeed * Input.GetAxis("Mouse ScrollWheel"), minCameraSize);
 
 		}
 		else if (Input.GetAxis("Mouse ScrollWheel") < 0.0f) {
-			camera.orthographicSize = Mathf.Min (camera.orthographicSize - zoomSpeed * Input.GetAxis("Mouse ScrollWheel"), maxCameraSize);
+			GetComponent<Camera>().orthographicSize = Mathf.Min (GetComponent<Camera>().orthographicSize - zoomSpeed * Input.GetAxis("Mouse ScrollWheel"), maxCameraSize);
 		}
 	}
 }

@@ -37,7 +37,7 @@ public class NavigationMap : MonoBehaviour {
 			Debug.LogError ("Unable to find camera game object in NavigationMap");
 		}
 		else{
-			m_camera = cameraGameObject.camera;
+			m_camera = cameraGameObject.GetComponent<Camera>();
 			if(m_camera == null){
 				Debug.LogError ("Unable to extract camera object in NavigationMap");
 			}

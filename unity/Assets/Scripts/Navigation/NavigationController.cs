@@ -33,7 +33,7 @@ public class NavigationController : MonoBehaviour
 
 		GameObject navigationCamera = GameObject.FindGameObjectWithTag("NavigationCamera");
 		if (navigationCamera != null) {
-			m_camera = navigationCamera.camera;
+			m_camera = navigationCamera.GetComponent<Camera>();
 			if (m_camera == null) {
 				Debug.LogError("Unable to find NavigationCamera's camera component in NavigationController");
 			}
